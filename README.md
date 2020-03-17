@@ -8,7 +8,7 @@ Controlado a través de los mandos del volante (Arriba + Abajo).
 Muestra la información de las canciones en pantallas GID y CID, con CD70 NAVI y DVD90 NAVI con modo AUX.
 En otras radios, no se garantiza el funcionamento.
 
-Usa los transceptores CAN CP2515 y MCP2551 para comunicarse via CAN-BUS de velocidad media
+Usa los transceptores CAN CP2515 y MCP2551 para comunicarse via CAN-BUS de velocidad media (por ejemplo: http://www.industrialberry.com/canberrydual-v2-1/)
 Se requiere una configuración del modulo CAN funcional.
 
 Can-BUS Astra H :
