@@ -10,6 +10,7 @@ Usa los transceptores CAN CP2515 y MCP2551 para comunicarse via CAN-BUS de veloc
 Se requiere una configuración del modulo CAN funcional.
 
 Can-BUS Astra H :
+
 Alta velocidad:   500Kbps (2 Cables)
 
 Media velocidad:   95Kbps (2 Cables)
