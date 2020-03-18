@@ -12,10 +12,10 @@ dbfile=basedir+"/mpi3.db"                                                       
 channel="can0"                                                                  # CAN device
 interface="socketcan"                                                           # CAN inteface type
 can_filters = []                                                                # CAN-BUS Adress filters
-can_filters.append({"can_id": int("201", base=16), "can_mask": int("FFF", base=16)})    # Messages from radio buttons
-can_filters.append({"can_id": int("206", base=16), "can_mask": int("FFF", base=16)})    # Messages from steering wheel
+can_filters.append({"can_id": int("201", base=16), "can_mask": int("FFF", base=16)})    # Mensajes de los botones de la radio
+can_filters.append({"can_id": int("206", base=16), "can_mask": int("FFF", base=16)})    # Mensajes de los mandos del volante
 can_filters.append({"can_id": int("188", base=16), "can_mask": int("FFF", base=16)})    # Messags from ECU with ignition state
-can_filters.append({"can_id": int("6C1", base=16), "can_mask": int("FFF", base=16)})    # Messags from EHU to DIS
+can_filters.append({"can_id": int("6C1", base=16), "can_mask": int("FFF", base=16)})    # Mensajes de EHU a DIS
 can_filters.append({"can_id": int("548", base=16), "can_mask": int("FFF", base=16)})    # Diagnostical reply from ECC
 
 v_data = {}                                                                     # Array for vehicle data
