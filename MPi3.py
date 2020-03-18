@@ -4,9 +4,9 @@
 # Configuration
 ###
 
-maxmode=3                                                                       # Number of modes
+maxmode=3                                                                       # Numero de modos
 modefile="lastmode.stat"                                                        # Lastmode file
-basedir="/home/pi/mpi3"
+basedir="/home/pi/mpi3"                                                         # Directorio Base
 dbfile=basedir+"/mpi3.db"                                                       # SQLite database
 
 channel="can0"                                                                  # CAN device
