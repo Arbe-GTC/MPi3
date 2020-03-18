@@ -167,7 +167,7 @@ def next_song():
                         song=cursor.fetchone()
                         sid=song[0]
                 except TypeError:
-                        print("Error al recuoperar la cancion de la BBDD.")
+                        print("Error al recuperar la cancion de la BBDD.")
                         skip_song()
                         return()
                 cursor.execute("UPDATE songs SET playround="+str(playround)+" WHERE sid="+str(sid)+";")
