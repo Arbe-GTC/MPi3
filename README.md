@@ -1,5 +1,5 @@
 # MPi3
-Reproductor MP3 programado en Python via CAN-BUS (Corriendo en Raspberry Pi)
+Reproductor MP3 programado en Python via CAN-BUS (Corriendo en Raspberry Pi) para Astra H / Zafira B
 
 Reproduce música almacenada en una base de datos SQlite, con posibilidad de eliminar canciones del modo de reproducción.
 
@@ -11,7 +11,7 @@ En otras radios, no se garantiza el funcionamento.
 Usa los transceptores CAN CP2515 y MCP2551 para comunicarse via CAN-BUS de velocidad media (por ejemplo: http://www.industrialberry.com/canberrydual-v2-1/)
 Se requiere una configuración del modulo CAN funcional.
 
-Can-BUS Astra H :
+Can-BUS Astra H / Zafira B :
 
 Alta velocidad:   500Kbps (2 Cables)
 
