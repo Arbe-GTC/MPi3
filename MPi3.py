@@ -6,7 +6,7 @@
 
 maxmode=3                                                                       # Number of modes
 modefile="lastmode.stat"                                                        # Lastmode file
-basedir="/data/mpi3"
+basedir="/home/pi/mpi3"
 dbfile=basedir+"/mpi3.db"                                                       # SQLite database
 
 channel="can0"                                                                  # CAN device
@@ -111,19 +111,19 @@ class checkMessage():                                                           
                                         print("AC2: "+str(v_data['t_ac2']))
                                 if(m.data[0]==0x07):
                                         v_data['volt']=(m.data[2]/10)           # Battery voltage
-                                        print("Voltage: "+str(v_data['volt']))
+                                        print("Voltaje Bateria: "+str(v_data['volt']))
                                 if(m.data[0]==0x10):
                                         v_data['t_eng']=(((m.data[3]*256)+m.data[4])/10) # Engine Temp
                                         v_data['t_out']=(((m.data[1]*256)+m.data[2])/10) # Outdoor Temp
                                 if(m.data[0]==0x10):
                                         v_data['t_eng']=(((m.data[3]*256)+m.data[4])/10) # Engine Temp
                                         v_data['t_out']=(((m.data[1]*256)+m.data[2])/10) # Outdoor Temp
-                                        print("ENGINE: "+str(v_data['t_eng']))
-                                        print("OUT: "+str(v_data['t_out']))
+                                        print("Temperatura Motor: "+str(v_data['t_eng']))
+                                        print("Temperatura Exterior: "+str(v_data['t_out']))
                                 if(m.data[0]==0x11):
                                         v_data['speed']=m.data[4]               # Speed
                                         v_data['rpm']=((m.data[1]*256)+m.data[2]) # RPM
-                                        print("SPEED: "+str(v_data['speed']))
+                                        print("Velocidad: "+str(v_data['speed']))
                                         print("RPM: "+str(v_data['rpm']))
 
 
@@ -137,7 +137,7 @@ def check_player():
                 if not pygame.mixer.music.get_busy():                           # If not playing
                         time.sleep(0.1)
                         if not pygame.mixer.music.get_busy():                   # If still not playing
-                                print("Song ended")
+                                print("Reproduccion finalizada.")
                                 song_ended()                                    # Go to next song
 
 def get_next_offline_song():
@@ -167,7 +167,7 @@ def next_song():
                         song=cursor.fetchone()
                         sid=song[0]
                 except TypeError:
-                        print("Error while fetching song from DB")
+                        print("Error al recuoperar la cancion de la BBDD.")
                         skip_song()
                         return()
                 cursor.execute("UPDATE songs SET playround="+str(playround)+" WHERE sid="+str(sid)+";")
@@ -175,15 +175,15 @@ def next_song():
                 filename=song[1]
                 cursor.close();
                 db.close()                                                      # Close DB
-        print("Song: "+filename+"(SID:"+str(sid)+")")
+        print("Canción: "+filename+"(SID:"+str(sid)+")")
         if not os.path.isfile(filename):
-                print("File not found!")
+                print("Archivo no encontrado!")
                 skip_song()
         pygame.mixer.music.set_volume(1)
         try:
                 pygame.mixer.music.load(filename)
         except:
-                print("Unable to play "+filename)
+                print("Imposible reproducir el fichero "+filename)
                 time.sleep(0.1)
                 return()
         pygame.mixer.music.play()
@@ -196,15 +196,15 @@ def next_song():
                 title=os.path.basename(filename)
                 artist=""
                 album=""
-        print("title: "+title)
-        print("album: "+album)
-        print("artist: "+artist)
-        print("playing:"+filename)
+        print("Título: "+title)
+        print("Álbum: "+album)
+        print("Artista: "+artist)
+        print("Reproduciendo: "+filename)
         update_display()
 
 def skip_song():
         global sid,ignition,dbfile
-        print("skipped")
+        print("Omitida")
         pygame.mixer.music.fadeout(500)
         if(ignition != 2):
                 db = sqlite3.connect(dbfile)                                    # Load database
@@ -217,7 +217,7 @@ def skip_song():
 
 def song_ended():
         global sid,ignition,dbfile
-        print("ended")
+        print("Finalizado")
         if(listenning==1):                                                      # Only continnue if someone listens
                 if(ignition != 2):
                         db = sqlite3.connect(dbfile)                            # Load database
@@ -232,7 +232,7 @@ def disable_song():
         global mode,sid,ignition,songcnt,dbfile,aux
         if(aux==1):
                 return()
-        print("deleting song")
+        print("Desactivando canción...")
         if(ignition != 2):
                 db = sqlite3.connect(dbfile)                                    # Load database
                 cursor=db.cursor()
@@ -240,8 +240,8 @@ def disable_song():
                 cursor.close();
                 db.commit()
                 db.close()                                                      # Close DB
-                if(os.path.isfile(basedir+"/MPi3/del.mp3")):
-                        pygame.mixer.music.load(basedir+"/MPi3/del.mp3")
+                if(os.path.isfile(basedir+"/mpi3/del.mp3")):
+                        pygame.mixer.music.load(basedir+"/mpi3/del.mp3")
                         pygame.mixer.music.play()
                 songcnt-=1
         else:
@@ -255,9 +255,9 @@ def switch_mode():
         mode += 1
         if(mode > maxmode):
                 mode=1
-        print("mode"+str(mode))
-        if(os.path.isfile(basedir+"/MPi3/m"+str(mode)+".mp3")):                 # Check if mode-file exists
-                pygame.mixer.music.load(basedir+"/MPi3/m"+str(mode)+".mp3")     # Play modefile
+        print("modo"+str(mode))
+        if(os.path.isfile(basedir+"/mpi3/m"+str(mode)+".mp3")):                 # Check if mode-file exists
+                pygame.mixer.music.load(basedir+"/mpi3/m"+str(mode)+".mp3")     # Play modefile
                 pygame.mixer.music.play()
         file=open(modefile,"w")
         file.write(str(mode))
@@ -287,12 +287,12 @@ def check_playround():
         result=cursor.fetchone()
         cursor.close();
         db.close()                                                              # Close DB
-        print("playround: "+str(playround))
-        print("played: "+str(result[0]))
-        print("cnt: "+str(songcnt))
+        print("Playround: "+str(playround))
+        print("Reproducida: "+str(result[0]))
+        print("Canciones: "+str(songcnt))
         if((result[0]/songcnt) > .9):
                 playround=(playround+1)
-                print("NEXT ROUND")
+                print("Siguiente ronda...")
 
 def init_playround():
         global playround, songcnt,dbfile
@@ -334,22 +334,22 @@ def check_btn():
         if(last_aux_message>0):                                                 # If in AUX Mode
                 if(listenning==0):
                         listenning=1                                            # Player active
-                        print("Listener started")
+                        print("Conectando...")
                 last_aux_message=(last_aux_message-1)                           # Decrement counter
         else:
                 if(listenning==1):
                         listenning=0                                            # No one listenns
-                        print("No listeners")
+                        print("Sin conexion, esperando nueva...")
 
 def toggle_aux():
         global aux,artist,album,mode,title
         if(aux==1):
                 aux=0
-                print("Stopping aux-loop")
+                print("Parando aux-loop")
                 os.system("pkill alsaloop")
         else:
                 aux=1
-                print("Starting aux-loop")
+                print("Iniciando aux-loop")
                 pygame.mixer.music.fadeout(500)
                 artist=""
                 title="TV-Mode"
@@ -359,7 +359,7 @@ def toggle_aux():
 
 def makeRO():
         global offlineSongs, offlinePos
-        print("Make Readonly")
+        print("Hacer solo lectura")
         db = sqlite3.connect(dbfile)                                            # Load database
         cursor=db.cursor()                                                      # Open Database session
         cursor.execute("SELECT sid,filename FROM `songs` \
@@ -376,7 +376,7 @@ def makeRO():
                 offlineSongs.append(song[1])                                    # Write songs to array
         offlinePos=0                                                            # Start list from beginning
         db.close()                                                              # Close database
-        print("Done.syncing.")
+        print("Realizado y sincronizando.")
         os.system("/bin/sync")                                                  # Sync filesystem
 
 def check_ignition():
@@ -396,30 +396,30 @@ def update_display():
                 if(d_mode==1):
                         thirdrow=album
                 if(d_mode==2):
-                        thirdrow="Engine temp: "+str(v_data['t_eng'])+" °C"
+                        thirdrow="Temperatura Motor: "+str(v_data['t_eng'])+" °C"
                 if(d_mode==3):
-                        thirdrow="Outdoor temp: "+str(v_data['t_out'])+" C"
+                        thirdrow="Temperatura Exterior: "+str(v_data['t_out'])+" °C"
                 if(d_mode==4):
-                        thirdrow="Speed: "+str(v_data['speed'])+" km/h"
+                        thirdrow="Velocidad: "+str(v_data['speed'])+" km/h"
                 if(d_mode==5):
                         thirdrow="RPM: "+str(v_data['rpm'])+" rpm"
                 if(d_mode==6):
                         thirdrow="Playround: "+str(playround)
                 if(d_mode==7):
                         if(ignition==1):
-                                thirdrow="Ignition ON"
+                                thirdrow="Ignición: Conectado"
                         else:
-                                thirdrow="Ignition OFF"
+                                thirdrow="Ignición: Desconectado"
                 if(d_mode==8):
-                        thirdrow="Voltage: "+str(v_data['volt'])+" V"
+                        thirdrow="Voltaje bateria: "+str(v_data['volt'])+" V"
                 if(d_mode>8):
-                        thirdrow="UNUSED"
-                print("Sending..")
+                        thirdrow="SIN_USO"
+                print("Enviando mensaje can..")
                 for package in MPi3_can.generate_aux_message(title,thirdrow,artist,mode):
                         msg = can.Message(arbitration_id=0x06C1,data=package,extended_id=False)
                         bus.send(msg)
                         time.sleep(0.001)                                               # 1ms pause
-                print("ok")
+                print("Enviado OK")
 
 def corrupt_message():
         global bus
@@ -436,7 +436,7 @@ if os.path.isfile(modefile):                                                    
         file=open(modefile,"r")                                                 # Open modefile
         mode=int(file.read())                                                   # Read modefile
         file.close()                                                            # Close modefile
-        print("Reading mode "+str(mode)+" from file")
+        print("Leyendo modo "+str(mode)+" del archivo.")
 
 pygame.init()                                                                   # Initialize pygame framework for music
 
